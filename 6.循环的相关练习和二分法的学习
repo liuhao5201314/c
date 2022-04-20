@@ -1,0 +1,299 @@
+//for循环
+/*
+#include<stdio.h>
+
+int main()
+{
+	int ret = 0;
+	char password[20] = {0};
+	printf("请输入密码:");
+	scanf_s("%s", &password);
+	printf("请确认密码（Y/N）");
+		ret = getchar();
+	if (ret == 'Y')
+		printf("确认成功");
+	else
+		printf("放弃确认");
+}
+*/
+//注意getchar中的字符包含'\n'
+
+//for 循环
+//for(表达式1:表达式2:表达式3)
+//    循环语句:
+//for循环里面也有break,continue 和while使用相同
+//这里自己理解为先执行表达式1，再执行表达式2进行判断然后进入循环输出东西，最后再进入表达式3进行调整，再进入表达式2又判断
+//在执行continue的时候for是跳转到调整部分也就是++部分，而while则是跳过了调整导致变量数字没有改变程序进入死循环
+
+/*
+#include<stdio.h>
+
+int main()
+{
+	int i = 0;
+	for (i = 0 ;i <= 10 ;i++)//初始，判断，调整相对集中比while好用
+	{
+		printf("%d ", i);
+	}
+}
+*/
+//不可在for循环体内更改变量防止循环失去控制
+//建议for循环控制变量的取值采取“前闭后开”写法就是i=0;i<10这样而不是i=0;i<=9;这样的书写方便别人看程序
+//for(;;)死循环
+//for循环如果判断被省略那判断条件恒为正
+
+//这样只会打印10个liuhao因为如果在前面加上j=0;那么j的值就会从10变成0，但是这里j=0没有说明所以当i++时j还是10就不会执行j循环里面的内容也就不会进行输出了
+//这样执行就只会打印10个liuhao
+/*
+#include<stdio.h>
+int main()
+{
+	int i = 0;
+	int j = 0;
+	for (; i < 10; i++)
+	{
+		for (; j < 10; j++)
+		{
+			printf("liuhao\n");//这里的j因为没有置0执行完i=1的程序，当i=2时j=10程序不会进入j的循环
+		}
+	}
+}
+*/
+//下面这样执行就会打印100个liuhao
+/*
+#include<stdio.h>
+
+int main()
+{
+	int i = 0;
+	int j = 0;
+	for (i = 0; i < 10; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			printf("liuhao\n");
+		}
+	}
+}
+*/
+
+//for的另一种变形
+//for循环里面有2个变量
+//&&同真为真，||同假为假
+/*
+#include<stdio.h>
+int main()
+{
+	int i = 0;
+	int k = 0;
+	for (i = 0, k = 0; k = 0; i++, k++)//k=0为赋值循环判断为假循环就不会进行
+		k++;
+}
+*/
+
+
+//do while循环先循环再进行判断和for不同的一点（常用于做游戏时比如输入1进入游戏，输入0退出游戏的场合）
+//do
+//    循环语句
+//while(表达式)
+//break跳出循环
+/*
+#include<stdio.h>
+int main()
+{
+	int i = 1;
+	do {
+		//if(i==5)
+		//break;//退出循环打印1234
+		//continue;//1234进行死循环跳过本次循环同时也跳过了调整阶段就导致i一直为5
+		printf("%d", i);
+		i++;
+	} while (i <= 10);
+}
+*/
+
+//练习
+//1.n的阶乘
+/*
+#include<stdio.h>
+int main()
+{
+	int i = 1;
+	int j = 1;
+	int num = 1;
+	printf("请输入一个数字\n");
+	scanf_s("%d", &i);
+	for (j = 1; j <= i; j++)
+	{
+		num = j * num;
+	}
+	printf("%d", num);
+}
+*/
+
+//2.求1+到10的阶乘和
+/*
+#include<stdio.h>
+int main()
+{
+	int i = 1;
+	int j = 1;
+	int sum = 0;
+	int num = 1;
+	for (i = 1; i <= 3; i++)
+	{
+		j = i * j;//1的阶乘为1的阶乘，2的阶乘为2乘上1的阶乘，3等于3乘上2的阶乘，依次下去
+		sum = sum + j;
+	}
+	printf("%d", sum);
+}
+*/
+
+//密码锁只能登陆3次3次失败退出程序，成功则输出密码正确
+/*
+#include<stdio.h>
+int main()
+{
+	int num;
+	int i = 0;
+	printf("请输入密码\n");//char arr1[]="123456";输出字符串
+	for (i = 0; i < 3; i++)
+	{
+		if (i == 3)
+			break;
+		scanf_s("%d", &num);
+		if (num == 12345)
+		{
+			printf("密码正确");
+			break;
+		}
+		else
+		{
+			printf("密码错误，重新输入");
+		}
+	}
+}
+//等号不能用来判断二个字符串相等，应该使用一个库函数-strcmp(数，数)==0则相同//非常重要
+*/
+
+//方法2运用char数组进行对比字符串
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	int i = 0;
+	char password[20] = { 0 };
+	for (i = 0; i < 3; i++)
+	{
+		printf("请输入密码\n");
+		scanf("%s", &password);
+		if (strcmp(password, "123456") == 0)
+		{
+			printf("登陆成功\n");
+			break;
+		}
+		else
+		{
+			printf("密码错误，重新输入\n");
+		}
+	}
+	if (i == 3)
+	{
+		printf("三次密码错误");
+	}
+}
+
+//找到一个数组里面对应的一个数字的对应数组下标
+//1.传统方法一个个的进行查找，2.采用二分法进行查找可以节约查找次数
+/*
+#include<stdio.h>
+int main()
+{
+	int arr[] = { 1,2,3,4,5,6,7,8,9,10 };
+	int k = 7;
+	int i = 0;
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	for (i = 0; i < sz; i++)
+	{
+			if (k == arr[i])
+			{
+				printf("找到了数字下标%d",i);
+					break;
+			}
+	}
+	if (i == sz)
+	{
+		printf("找不到\n");
+	}
+}
+*/
+
+//二分法；找到对应数组内的数值,非常巧妙的运用算法减轻了电脑进行运算的步骤
+/*
+#include<stdio.h>
+
+int main()
+{
+	int k = 11;
+	int arr[] = { 1,2,3,4,5,6,7,8,9,10 };
+	int left = 0;//左下标
+	int sz = sizeof(arr) / sizeof(arr[0]);//得到对应的元素个数采用总的字符串的长度除以一个字符串的长度得到字符串的个数
+	int right = sz - 1;//右下标
+	while (left<=right)//排序情况下只有左边小于右边的情况才能实现进入循环
+	{
+		int mid = (left + right) / 2;
+		if (arr[mid] > k)
+		{
+			right = mid - 1;
+		}
+		else if (arr[mid] < k)
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			printf("找到了小标为：%d", mid);
+			break;
+		}
+	}
+	if (left > right)//找不到了
+	{
+		printf("找不到了");
+	}
+	return 0;
+}
+*/
+
+
+//每次二边只露出一对字符
+//welcome to bit!!!!!!
+//####################
+//w##################!
+//we################!!可以理解为每一次将上面对应在之母拿一对到###########中
+//...
+//welcome to bit!!!!!!
+/*
+#include<stdio.h>
+#include<string.h>
+#include <windows.h>
+
+int main()
+{
+	char arr1[] = "welcome to bit!!!!!!";
+	char arr2[] = "####################";
+	int left = 0;
+	int right = strlen(arr1) - 1;//减去\0
+
+	while (left<=right)
+	{
+		arr2[left] = arr1[left];
+		arr2[right] = arr1[right];
+		printf("%s\n", arr2);
+		//休息1秒sleep函数
+		Sleep(1000);
+		left++;
+		right--;
+	}
+}
+*/
