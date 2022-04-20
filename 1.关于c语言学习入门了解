@@ -1,0 +1,56 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>//包含一个stdio.h的文件
+
+/*int num1 = 10;//全局变量
+int main()//程序的入口，main前面的int表示main函数调用返回一个整型值
+{
+	int age = 20;
+	long int num = 10000;
+	int num2 = 20;//局部变量  全局变量和局部变量名字相同时以局部变量为标准，因此局部变量和全局变量尽量不要相同
+	double f = 3.14159;
+	printf("hhhh\n");//调用库函数printf
+	char ch='A';//申请一块内存用于储存A的内容
+	printf("%c\n",ch);//%c打印字符格式数据
+	printf("%d\n",age);//%d打印整数型十进制数据
+	printf("%d\n",num);//%f打印小数
+	printf("%lf\n",f);  //%lf打印双精度小数
+	return 0;          //%p以地址形式进行打印
+	                   //%x打印16进制数字
+	                   //%o.....
+	                   //scanf_s输入函数 
+	             
+}*/
+//char  //字符数据类型        1
+//int    //整型               4
+//long   //长整型             4
+//long long  //长长整型       8
+//float  //单精度浮点型       4
+//double //双精度浮点型       8
+//short int  //短整型         2
+//sizeof(char)//计算大小内存
+//计算机中的单位
+//bit   比特位          存储一个0/1
+//byte  字节            一个字节等于8个比特位
+//kb                    1024个字节
+//mb                    1024kb
+//gb
+//int 4个字节32位  2^32-1种表达方式
+//short age=20;向内存申请2个字节用于存放20
+//float weight=80.5f;
+
+int main()
+{
+	int num1 = 0;
+	int num2 = 0;
+	int num=0;
+	printf("请输入2个数字");
+	scanf("%d,%d",&num1, &num2);
+	num = num1 + num2;
+	printf("%d", num);
+	return 0;
+}
+//局部变量的作用域为局部的大括号（包含大括号内的括号）
+//全局变量的作用域整个工程
+//extern 声明外部变量可以跨程序调用
+//scanf和scanf_s
+//scanf_s为vs特有的不具备移植性可以选择使用#define _CRT_SECURE_NO_WARNINGS 1
