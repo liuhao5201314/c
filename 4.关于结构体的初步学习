@@ -1,0 +1,32 @@
+//结构体（复杂对象）我们自己创造出来的类型
+//创建一个结构体类型
+//#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+
+struct book
+{
+	char name[20];//
+	short price;
+};
+
+int main()
+{
+	//利用结构体类型创建一个该类型的结构体变量，字符串%s,  b1.name‘.’找到对应的名字(得到的是结构体变量用于找到结构体成员)
+	struct book b1 = { "老人与海",50 };
+	strcpy_s(b1.name, "c++");//字符串拷贝-strcpy-库函数<string.h>用于更改结构体中的字符串
+
+	struct book* pb = &b1;//定义一个指针变量
+	printf("%s", (*pb).name);//*pb=b1
+	printf("%d\n", (*pb).price);
+
+	printf("%s", pb->name);//直接用pb地址指向对应的位置不用解指针"->"（得到的是结构体位置找到结构体成员)
+	printf("%d\n", pb->price);
+
+		printf("书名：%s 价格：%d\n", b1.name, b1.price);
+		b1.price = 38;//改价格(价格为数字可以直接改变，字符就必须使用上面的strcpy函数进行更改)
+		printf("打折后价格：%d", b1.price);
+	return 0;
+}
+
+//github
