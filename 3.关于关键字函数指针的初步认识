@@ -1,0 +1,128 @@
+/*
+#include<stdio.h>
+
+int Max(int x, int y)
+{
+	if (x > y)
+		return x;
+	else
+		return y;
+}
+
+int max(int x, int y)
+{
+	int z;
+	z = x;
+	if (z < y)
+	{
+		z = y;
+	}
+	return z;
+}
+
+int main()
+{
+	int num1 = 10;
+	int num2 = 20;
+	int Max;
+	scanf("%d,%d", &num1, &num2);
+	Max=max(num1,num2);
+	printf("%d\n", Max);
+}
+*/
+//常用关键字
+//auto自动outo int a;
+//break 退出
+//case char const continue default do double else enum extern（使用其他时进行说明）   float for goto if int long register（建议把a定义为寄存器变量）   return short signed sizeof static struct（结构体关键字）   switch typedef（类型重定义）    union（联合体/构造体）   unsigned void volatile while
+//计算机存储数据：寄存器 高数缓存 内存 硬盘
+// CPU-中央处理器 从内存拿数据到CPU
+//signed int=int有符号变量
+//unsigned int 无符号
+//typedef unsigned int u_int;重新命名为u_int
+//static int a;静态局部变量
+//
+/*
+#include<stdio.h>
+
+void test()
+{
+	static int a = 1;//static 2 3 4 5 6//没有就为2 2 2 2 2//static 为静态变量,修饰时局部变量的生命周期变长了
+	a++;
+	printf("a=%d", a);//改变了函数作用域--让静态的全局变量只能在源文件内部使用，出了源文件就无法使用。原本定义的int函数如果前面加上static那么使用extern就没有用了也不能调用对应的函数
+					  //static修饰一个函数改变了函数的连接属性--->外部连接属性变为内部连接属性
+					  //修饰全局变量时改变了函数作用域
+}
+
+int main()
+{
+	int i = 0;
+	while (i < 5)
+	{
+		test();
+		i++;
+	}
+}
+*/
+
+
+
+//#define max 100 定义宏--可以带参数
+/*
+#include<stdio.h>
+
+int Max(int x,int y)
+{
+	if (x > y)
+		return x;
+	else
+		return y;
+}
+
+#define MAX(x,y) (x>y?x:y)
+
+int main()
+{
+	int a = 10;
+	int b = 20;
+	int max;
+	//采用函数方式
+	max = Max(a, b);
+	printf("%d\n", max);
+	//采用宏定义的方式
+	max = MAX(a, b);
+		printf("%d\n", max);
+}
+*/
+
+
+
+//指针
+//地址--->空间
+//2^32个地址---->0.5个GB--->1个bit
+//        ---一个空间一个字节
+/*
+#include<stdio.h>
+int main()
+{
+	int a = 10;//4个字节
+	int* p=&a;//取地址符号
+	printf("%p\n", p);//%p打印地址
+	*p=20;//解引用操作符其实就是a改为20   *p=a
+	printf("%d\n", a);//相同*p=a
+	printf("%d\n",*p);
+}
+*/
+//指针在32位平台为4字节，64位平台为8字节
+//x86为32位，
+#include<stdio.h>
+int main()
+{
+	char ch = 'w';
+	char* pc = &ch;
+	double p = 3.14;
+	double* pd = &p;
+	*pd = 5.55;
+	*pc = 'a';
+	printf("%c", ch);
+	printf("%d\n", sizeof(pd));//这里的指针大小固定为4/8与定义的指针类型没有关系只与工作环境是32位（4）还是64位（8）有关
+}
