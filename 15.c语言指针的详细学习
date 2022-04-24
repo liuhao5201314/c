@@ -1,0 +1,197 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//对于指针学习
+//指针大小在32位上为4字节在64位上位8字节
+//地址是都能存入的但是我们进行解引用会产生不同
+//指针类型决定了指针进行解引用操作时能够访问空间的大小
+//int* p;*p能够访问4个字节
+//char* p;*p能够访问1个字节
+//double* p;*p能够访问8个字节
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 0x11223344;//11一个字节22一个字节....
+//	int* pa = &a;
+//	*pa = 0;//把里面4个字节改为0
+//	char* pc = &a;
+//	*pc = 0;//里面内存只改变了里面一个字节为0
+//	//printf("%p\n", pa);//都能存放a的地址因为都为4个字节
+//	//printf("%p\n", pc);
+//}
+//指针类型决定了指针一步走多远（指针的步长）
+//int* p;p+1-->4
+//char* p;p+1-->1
+//double* p;p+1-->8
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 0x11223344;
+//	int *pa = &a;
+//	char* pc = &a;
+//	printf("%p\n", pa);
+//	printf("%p\n", pa+1);//整型地址加了4
+//	printf("%p\n", pc);
+//	printf("%p\n", pc+1);//字符型地址加了1
+//}
+//#include<stdio.h>
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int* p = arr;//数组名为首元素地址
+////  char* p=arr;//我们就只访问了10个字节，而数组有40个字节所以我们不能顺利执行下面的程序
+//	int i = 0;
+//	for (i = 0; i < 10; i++)
+//	{
+//		*(p + i) = 1;//每个位置数都变为1
+//		printf("%d", arr[i]);//
+//	}
+//}
+
+
+//野指针（指针指向位置是不可知的）
+//1.int* p;//随机一个地址（未初始化为野指针）
+//2.超过指针管辖空间 
+//#include<stdio.h>
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int* p = arr;
+//	int i = 0;
+//	for (i = 0; i < 12; i++)
+//	{
+//		p++;//循环超过了指针管理范围也也被称为野指针
+//	}
+//}
+//3.使用的地址空间被释放
+//#include<stdio.h>
+//int* test()
+//{
+//	int a = 10;//a为局部变量，进创出亡
+//	return &a;//a为创建的临时空间结束我们的地址空间就被释放了，我们虽然返回了a的地址坐标
+//}
+//int main()
+//{
+//	int* p = test();
+//	*p = 20;//这里我们只是给那个地址赋值为20，之前a占用的空间在函数结束就被释放了（这也为野指针的一种）
+//}
+//避免野指针
+//1.指针初始化(可以赋值为空指针NULL)
+//int a=10;int* b=&a;int* b=NULL;
+//2.指针小心越界
+//3.把一个指针置为空指针NULL那么空间就会释放
+//int a=10;
+//int* p=&a;
+//p=NULL;//指针就会空间释放
+//*p=10;//由于空间已经不存在了所以不能进行操作程序卡死
+//4.使用指针检测指针的有效性
+//if(p!=NULL)
+//通过上面进行判断是否指针有效
+
+
+
+//指针运算
+//1指针+-整数
+//*vp++=0;先赋值为0再进行++
+//#include<stdio.h>
+//int main()
+//{
+//	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//	int i = 0;
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	int* p = arr;
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", *(p + i));
+//	}
+//}
+//2.指针-指针
+//地址-地址
+//#include<stdio.h>
+//int main()
+//{
+//	int arr[10] = { 1,2,3,4,5,6,7,8,9,20 };
+//	int b = &arr[9] - &arr[0];//指针减去指针得到为中间元素个数
+//	printf("%d", b);
+//}
+//1.strlen - 求字符串长度
+//2.递归 - 模拟实现strlen 1.计数器方式2.递归方式
+//3.指针
+//#include<stdio.h>
+//int my_strlen(char arr[])//char* arr
+//{
+//	char* str = arr;
+//	char* end = arr;
+//	while (*end != '\0')
+//	{
+//		end++;
+//	}
+//	return end - str;
+//}
+//int main()
+//{
+//	char arr[] = "liuhao";
+//	int len = my_strlen(arr);
+//	printf("%d\n", len);
+//}
+//3.指针关系运算
+//可以进行比较大小
+//#include<stdio.h>
+//int main()
+//{
+//	float values[5];
+//	float* vp;
+//	for (vp = &values[5]; vp >= &values[0]; )
+//	{
+//		*--vp = 0;
+//	}
+//	//c语言规定：允许指向数组元素的指针与指向数组最后一个元素后面的那个内存位置的指针比较，但是不允许与指向第一个元素之前的那个内存位置的指针进行比较
+//	//上面第一种就避免了上面情况发生推荐使用
+//	for (vp = &values[4]; vp >= &values[0]; vp--)
+//	{
+//		*vp = 0;
+//	}
+//}
+
+
+
+//数组和指针
+//数组名是首元素地址
+//#include<stdio.h>
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	printf("%p\n", arr);//数组名为首地址
+//	printf("%p\n", arr[0]);
+//	//1.&arr &数组名 - 数组名不是元素首地址，数组名代表整个数组
+//	//2.sizeof(arr) - 数组名为整个数组-计算整个数组大小
+//}
+
+
+//二级指针
+//指针里面存指针
+//套娃行为
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 10;
+//	int* pa = &a;//int 告诉我们指向一个整型*p告诉我们是一个指针
+//	int** ppa = &pa;//二级指针int* 告诉我们指向一个指针*p告诉我们是个指针
+//  **ppa=20;
+//	printf("%d", **ppa);
+//}
+
+
+
+//指针数组（存放指针的数组）
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 10;
+//	int b = 20;
+//	int c = 30;
+//	int i = 0;
+//	int* arr[3] = { &a,&b,&c };
+//	for (i = 0; i < 3; i++)
+//	{
+//		printf("%d ", *arr[i]);
+//	}
+//}
