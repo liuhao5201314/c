@@ -1,0 +1,123 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//实用的调试技巧
+//调试的基本步骤
+//1.发现程序错误存在
+//2.隔离消除进行定位
+//3.解决方法
+//4.重新测试
+//debug
+//
+
+
+//结构体详细学习
+//一.建立结构体变量3种方法
+//1.建立全局变量
+//2.建立局部变量
+//#include<stdio.h>
+//struct stu//结构体关键字+结构体标签=结构体类型
+//{
+//	//成员变量
+//	char name[20];
+//	short age;
+//	char tele[12];
+//	char sex[5];
+//}s1,s2,s3;//3个结构体全局变量（不建议使用）
+//int main()
+//{
+//	struct stu s;//局部结构体变量
+//}
+//#include<stdio.h>
+//
+//typedef struct stu
+//{
+//	char name[20];
+//	short age;
+//	char tele[12];
+//	char sex[5];
+//}stu;
+//int main()
+//{
+//	stu s1;//typedef就可以不加struct
+//}
+
+
+//二.结构体变量的成员可以多种多样
+//标量，数组，指针，结构体....
+
+
+//三.结构体变量初始化（{}）
+//#include<stdio.h>
+//
+//typedef struct stu
+//{
+//	char name[20];
+//	short age;
+//	char tele[12];
+//	char sex[5];
+//}stu;
+//int main()
+//{
+//	stu s1 = { "刘浩",20,"15086977845","男" };
+//	stu s2 = { "张三",30,"10086","女" };//
+//}
+
+
+//四。结构体成员的访问（.操作符和->操作符）
+//箭头用于定义结构体指针中使用
+//采用指针表达结构体较好(这样比较节约空间)
+//#include<stdio.h>
+//struct S
+//{
+//	int a;
+//	char c;
+//	char arr[20];
+//	double d;
+//};
+//struct T
+//{
+//	char ch[10];
+//	struct S s;
+//	char* pc;
+//};
+//int main()
+//{
+//	struct  T t = { "哈哈",{1,'a',"liuhao",3.14},NULL };
+//	struct T* p = &t;
+//	printf("%s\n", t.ch);
+//	printf("%d\n", t.s.a);
+//	printf("%s", p->ch);
+//}
+//#include<stdio.h>
+//typedef struct stu
+//{
+//	char name[20];
+//	short age;
+//	char tele[12];
+//	char sex[5];
+//}stu;
+////
+//void print1(stu* tem)
+//{
+//	printf("%s\n", tem->name);
+//	printf("%d\n", tem->age);
+//	printf("%s\n", tem->tele);
+//	printf("%s\n", tem->sex);
+//}
+//int main()
+//{
+//	stu s = { "刘浩",20,"15086977845","男" };
+//	print1(&s);
+//}
+
+
+//五.内存
+//栈区：局部变量、函数形参、函数调用开辟空间
+//堆区：动态变量、malloc、free、realloc、calloc
+//静态区：全局变量、静态变量
+//栈溢出
+//压栈
+//数据结构有：线性数据结构{顺序表、链表、栈、队列}{123456、1-->2-->3-->4-->5、栈底从顶上向下放}3<---栈底要想删除1就必须出栈先3后2再1，先进去后出、后进去先出
+//            树状数据结构{二叉图、图}                                                         2插入一个元素（压栈）
+//                                                                                             1删除一个元素（出栈）
+//                                                                                             0
+//函数栈帧的创建和销毁
