@@ -1,0 +1,194 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//一、编译
+//debug版本的可执行程序（可以调试，文件中包含了调试信息） 
+//release版本的可执行程序（不能调试，适合于客户）发布版本会对代码进行优化
+//#include<stdio.h>
+//#include<stdint.h>
+//int main()
+//{
+//	int i = 0;
+//	for (i = 0;i < 100; i++)
+//	{
+//		printf("%d ", i);
+//	}
+//	system("pause");//程序暂停
+//}
+//debag会进入无限循环，release则会因为优化的原因只会输出13个haha
+//#include<stdio.h>
+//#include<stdint.h>
+//int main()
+//{
+//	int i = 0;
+//	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//	for (i = 0; i <= 12; i++)
+//	{
+//		printf("haha");
+//		arr[i] = 0;
+//	}
+//	system("pause");
+//}
+//二、调试快捷键（先调试再选择功能）
+//F5和F9配合使用
+//F9产生断点（代码执行到此处停止）
+//F5执行程序，执行到执行逻辑的下一个断点
+//F10逐过程（进入调试）
+//F11逐语句
+//自动窗口（自己把程序的变量打印显示）
+//局部变量窗口和自动窗口显示差不多
+//监视窗口
+//调用堆栈
+//寄存器
+//#include<stdio.h>
+//#include<stdint.h>
+//int main()
+//{
+//	int i = 0;
+//	for (i = 0; i < 100; i++)
+//	{
+//		printf("%d ", i);
+//	}
+//	for (i = 0; i < 100; i++)
+//	{
+//		printf("%d ", 10-i);
+//	}
+//}
+
+//三、程序调试改错
+//自己书写关于求阶乘
+//#include<stdio.h>
+//int print(int x)
+//{
+//	int y = 1;
+//	int sum;
+//	if (x <= 1)
+//	{
+//		sum = 1;
+//	}
+//	if (x > 1)
+//	{
+//		sum = x * print(x - 1);
+//	}
+//	return sum;
+//}
+//int main()
+//{
+//	int i = 0;
+//	int count = 0;
+//	scanf("%d", &i);
+//	count = print(i);
+//	printf("%d", count);
+//}
+//求前N项阶乘之和
+//#include<stdio.h>
+//int main()
+//{
+//	int i = 0;
+//	int sum = 0;
+//	int n = 0;
+//	int ret = 1;
+//	scanf("%d", &n);
+//	for (i = 1; i <= n; i++)
+//	{
+//		int j = 0;//断点右击可以输入值进行调试
+//		ret = 1;//错误地方没有给ret重新赋值ret值进行了保留导致计算错误
+//		for (j = 1; j <= i; j++)
+//		{
+//			ret *= j;
+//		}
+//		sum += ret;
+//	}
+//	printf("%d", sum);
+//}
+//改错2
+//这里原因1.栈区的默认使用先使用高地址处空间再使用低地址空间
+//        2.数组随着下标的增长地址是从低到高增长
+//这里的i在前面所以使用了高地址，数组在后面占用低地址当数组12升上去到达了i所在的地址导致了i所占空间位置变为0(非常的巧合)
+//vc6.0   <=10进入死循环
+//gcc     <=11进入死循环
+//vs      <=12进入死循环
+//#include<stdio.h>
+//int main()
+//{
+//	int i = 0;
+//	int arr[10] = { 0 };
+//	//int i = 0;
+//	for (i = 0; i <= 12; i++)
+//	{
+//		arr[i] = 0;//当i==10、11、12时为一个随机值我们进行了非法访问,arr[12]从12变为0同时i从12变为0
+//		//arr[12]和i地址应该相同
+//		//printf("%d", arr[12]);
+//		printf("hehe\n");
+//		//printf("%p %p",&arr[12],&i);//arr[12]和i地址相同
+//	}
+//}
+
+//第四：优秀的代码习惯
+//模拟实现strcpy
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	char arr1[] = "############";
+//	char arr2[] = "bit";
+//	strcpy(arr1,arr2);//将后给前拷贝过去了\0所以后面的#就不会进行打印了
+//	printf("%s", arr1);
+//}
+#include<stdio.h>
+//void my_strcpy(char* arr1, char* arr2)
+//{
+//	int i = 0;
+//	while (*(arr2-1) != '\0')//arr[3]='\0';但是我们需要把\0传递过去方便程序停下来所以我们让位置移一位存放\0
+//	{
+//		*arr1 = *arr2;
+//		arr1++;
+//		arr2++;
+//	}
+//}
+//进行简化
+//void my_strcpy(char* arr1, char* arr2)
+//{
+//	if (arr2 != NULL && arr1 != NULL)//避免出现空指针
+//	{
+//		while (*arr1++ = *arr2++)//'b','i','t','\0'==0为假程序停下
+//		{
+//			;
+//		}
+//	}
+//}
+//再优化
+//#include<assert.h>
+//void my_strcpy(char* arr1, char* arr2)
+//{
+//	assert(arr1 != NULL);//断言程序执行到这里如果条件不成立则这里就会进行报错不会继续执行程序
+//	assert(arr2 != NULL);//断言
+//	while (*arr1++ = *arr2++)
+//	{
+//		;
+//	}
+//}
+//再进行优化
+#include<assert.h>
+void my_strcpy(char* arr1,const char* arr2)//const 常量允许改变否则就会报错，防止赋值反了把*arr1给了*arr2
+{
+	assert(arr1 != NULL);//断言程序执行到这里如果条件不成立则这里就会进行报错不会继续执行程序
+	assert(arr2 != NULL);//断言
+	while (*arr1++ = *arr2++)
+	{
+		;
+	}
+}
+int main()
+{
+	char arr1[] = "############";
+	char arr2[] = "liuhao";
+	my_strcpy(arr1, arr2);
+	printf("%s", arr1);
+}
+//const举例
+#include<stdio.h>
+int main()
+{
+	const int num = 10;
+	const int* p = &num;//const放在*p左边时表示不能通过p来改变*p（num）的值
+	//*p = 20;//这样就会报错，如果地址不用const修饰还是可以进行修改
+}
