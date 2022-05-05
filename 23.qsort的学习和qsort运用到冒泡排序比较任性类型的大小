@@ -1,0 +1,248 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<stdio.h>
+
+//int add(int x, int y)
+//{
+//	return x + y;
+//}
+//int main()
+//{
+//	//指针数组
+//	int* arr[10];
+//	//数组指针
+//	int* (*pa)[10] = &arr;
+//	//函数指针
+//	int(*ppa)(int, int) = add;//将函数的地址输入给指针
+//	//int sum = (*ppa)(1, 2);//二种方式都是可以的解函数运算或者输入函数地址
+//	int sum = ppa(1, 2);
+//	//函数指针的数组
+//	int(*pppa[4])(int, int);
+//	//指向函数数值指针数组的指针
+//	int(*(*ppppa[4]))(int, int) = &pppa;
+//	printf("sum=%d\n", sum);
+//}
+
+//冒泡排序和回调函数结合使用
+//原始的冒泡排序只针对于整数
+//#include<stdio.h>
+//void bubble(int arr[], int sz)
+//{
+//	int i = 0;
+//	for (i = 0; i < sz - 1; i++)//循环sz-1趟
+//	{
+//		int j = 0;
+//		for (j = 0; j < sz - i - 1; j++)//对比的对数
+//		{
+//			if (arr[j] > arr[j + 1])
+//			{
+//				int tem = arr[j];
+//				arr[j] = arr[j + 1];
+//				arr[j + 1] = tem;
+//			}
+//		}
+//	}
+//}
+//int main()
+//{
+//	int i = 0;
+//	int arr[10] = { 9,8,7,6,5,4,3,2,1,0 };
+//	//float arr[10] = { 9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0,0.0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	bubble(arr, sz);
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//}
+
+//对于比较其他，如结构体，字符，浮点型
+//qsort的运用
+//#include <stdio.h>      /* printf */
+//#include <stdlib.h>     /* qsort */
+//
+//int compare(const void * a, const void * b)//接受要比较数字的地址，比较函数
+//{
+//	return (*(int*)a - *(int*)b);//强制转化为Int*
+//}
+//
+//int main()
+//{
+//	int n;
+//	float values[] = { 40.0, 10.0, 100.0, 90.0, 20.0, 25.0 };
+//	qsort(values, 6, sizeof(int), compare);//4个参数
+//	//目标数组的起始位置的地址，排序的数目，一个元素的字节，比较函数
+//	for (n = 0; n < 6; n++)
+//	{
+//		printf("%f ", values[n]);
+//	}
+//	return 0;
+//}
+
+//void *讲解,可以接受任意类型的地址，但是我们不能进行解引用操作，也不能进行地址的++/--
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 10;
+//	int* pa = &a;
+//	char ch = 'w';
+//	void* p = &a;
+//	p = &ch;
+//	//*p = 0;//不能这样使用，因为所解指针的大小不确定
+//}
+
+
+#include<stdio.h>
+#include <stdlib.h>  
+#include<string.h>
+
+struct stu
+{
+	char name[20];
+	int age;
+};
+//对整数进行比较
+int compare1(const void * a, const void * b)//接受要比较数字的地址，比较函数
+{
+	return (*(int*)a - *(int*)b);//强制转化为Int*
+}
+void test1()
+{
+	int i = 0;
+	int arr1[10] = { 9,8,7,6,5,4,3,2,1,0 };
+	int sz = sizeof(arr1) / sizeof(arr1[0]);
+	qsort(arr1, sz, sizeof(int), compare1);
+	for (i = 0; i < sz; i++)
+	{
+		printf("%d ", arr1[i]);
+	}
+}
+//对小数进行比较
+int compare2(const void * a, const void * b)//接受要比较数字的地址，比较函数
+{
+	return (int)(*(double*)a - *(double*)b);//强制类型转化为int再进行返回（相等返回0，大于返回1，小于返回-1）
+
+	//if (*(double*)a == *(double*)b)
+	//{
+	//	return 0;
+	//}
+	//else if (*(double*)a > *(double*)b)
+	//{
+	//	return 1;
+	//}
+	//else
+	//{
+	//	return -1;
+	//}
+}
+void test2()
+{
+	int i = 0;
+	double arr2[10] = { 9.8,8.7,7.5,6.7,5.8,4.9,3.2,2.7,1.9,0.2 };
+	int sz = sizeof(arr2) / sizeof(arr2[0]);
+	qsort(arr2, sz, sizeof(double), compare2);
+	for (i = 0; i < sz; i++)
+	{
+		printf("%lf ", arr2[i]);
+	}
+}
+//比较结构体中数字大小
+int compare3(const void * a, const void * b)//接受要比较数字的地址，比较函数
+{
+	return ((struct  stu*)a)->age - ((struct  stu*)b)->age;
+}
+void test3()
+{
+	int i = 0;
+	struct stu s[3] = { {"zhangsan",20},{"lisi",30},{"wangwu",40} };
+	int sz = sizeof(s) / sizeof(s[0]);
+	qsort(s, sz, sizeof(s[0]), compare3);
+	for (i = 0; i < sz; i++)
+	{
+		printf("%d ", s[i].age);
+	}
+}
+//比较结构体中字符长度
+int compare4(const void * a, const void * b)//接受要比较数字的地址，比较函数
+{
+	//比较字符串
+	//字符串比较不能直接用大于小于来比较要用strcmp来进行比较
+	//int strcmp(const char *str1, const char *str2)
+	//如果返回值小于 0，则表示 str1 小于 str2。
+	//如果返回值大于 0，则表示 str1 大于 str2。
+	//如果返回值等于 0，则表示 str1 等于 str2。
+	return strcmp(((struct  stu*)a)->name, ((struct  stu*)b)->name);
+}
+void test4()
+{
+	int i = 0;
+	struct stu s[3] = { {"zhangsan",20},{"lisi",30},{"wangwu",40} };
+	int sz = sizeof(s) / sizeof(s[0]);
+	qsort(s, sz, sizeof(s[0]), compare4);
+	for (i = 0; i < sz; i++)
+	{
+		printf("%s ", s[i].name);
+	}
+}
+
+
+//不知道要待比较元素的类型
+void swap(char* buf1, char* buf2, int width)
+{
+	int i = 0;
+	for (i = 0;i< width; i++)
+	{
+		char tmp = *buf1;
+		*buf1 = *buf2;
+		*buf2 = tmp;
+		buf1++;
+		buf2++;
+	}
+}
+int cmp_int(const void*a, const void*b)//比较函数
+{
+	return *(int*)a - *(int*)b;
+}
+void bubble(void *base, int sz, int width,int(*cmp)(void *a,void *b))//调用cmp_int函数（调用不同的比较函数进行不同的比较实现比较）
+{
+	int i = 0;
+	//趟数
+	for (i = 0;i < sz - 1; i++)
+	{
+		int j = 0;//对数比较
+		for (j = 0; j < sz - i - 1; j++)
+		{
+			if (cmp((char*)base+j*width,(char*)base+(j+1)*width) > 0)//这里的cmp被称为回调函数，在下面bubble中将函数的地址传递给了指针cmp然后在bubble的if语句中进行调用cmp_int进行比较
+			{
+				//交换:二个元素，第一个地址为base第二个地址就为（char*)base+width
+				swap((char*)base + j * width, (char*)base + (j + 1)*width,width);
+			}
+		}
+	}
+}
+void test5()
+{
+	int i = 0;
+	int arr1[10] = { 9,8,7,6,5,4,3,2,1,0 };
+	int sz = sizeof(arr1) / sizeof(arr1[0]);
+	bubble(arr1, sz, sizeof(arr1[0]),cmp_int);//知道待排序的元素，这里的比较函数需要我们自己进行调用，
+	for (i = 0; i < sz; i++)
+	{
+		printf("%d ", arr1[i]);
+	}
+}
+
+int main()
+{
+	//test1();
+	//test2();
+	//test3();
+	//test4();
+	test5();
+	return 0;
+}
+//qsort的参数
+//第一个参数：待排序数组首元素地址
+//第二个参数：待排序数组个数
+//第三个参数：待排序数组每个元素的大小，单位是字节
+//第四个参数：为函数指针，比较二个元素所使用的函数的地址
