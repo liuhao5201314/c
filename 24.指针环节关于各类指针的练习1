@@ -1,0 +1,140 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//#include<stdio.h>
+//int main()
+//{
+//	//数组名为首元素的地址
+//	//1.sizeof(数组名)数组名表示整个数组
+//	//2.&数组名-数组名表示整个数组
+//	//一维数组32位情况下
+//	int a[] = { 1,2,3,4 };
+//	printf("%d\n", sizeof(a));//16 表示整个数组大小
+//	printf("%d\n", sizeof(a+0));//4 首元素地址
+//	printf("%d\n", sizeof(*a));//4 解首元素地址，为Int
+//	printf("%d\n", sizeof(a+1));//4 第二个元素地址
+//	printf("%d\n", sizeof(&a));//4 &a取出数组地址，但是取出的数组的地址也是地址，所以为4
+//	printf("%d\n", sizeof(a[1]));//4 第二个元素大小
+//	printf("%d\n", sizeof(*&a));//16 访问解数组地址的大小
+//	printf("%d\n", sizeof(&a+1));//4 &a是数组的地址，&a+1跳过整个数组，但是还是地址所以还是4
+//	printf("%d\n", sizeof(&a[0]));//4 取第一个元素地址
+//	printf("%d\n", sizeof(&a[0]+1));//4 取第一个元素地址加1为第二个元素地址
+//}
+
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	//字符数组32位
+//	char arr[] = { 'a','b','c','d','e','f' };
+//	//printf("%d\n", sizeof(arr));//6 整个数组大小
+//	//printf("%d\n", sizeof(arr+0));//4 首元素地址
+//	//printf("%d\n", sizeof(*arr));//1 第一个元素大小
+//	//printf("%d\n", sizeof(arr[1]));//1 第二个元素大小
+//	//printf("%d\n", sizeof(&arr));//4 数组的地址
+//	//printf("%d\n", sizeof(&arr+1));//4 跳过整个数组后的下一个地址为4
+//	//printf("%d\n", sizeof(&arr[0]+1));//4 第二个元素地址
+//
+//	printf("%d\n", strlen(arr));// 随机值没有\0
+//	printf("%d\n", strlen(arr+0));// 随机值，首元素地址
+//	//printf("%d\n", strlen(*arr));// 程序错误,传递了个'a'=97过去，
+//	//printf("%d\n", strlen(arr[1]));// 程序错误，传递了给'b'=98过去程序没有结果
+//	printf("%d\n", strlen(&arr));// 随机值，数组的地址，从a开始没有检测到\0
+//	printf("%d\n", strlen(&arr+1));//随机值，跳过数组的下一个地址
+//	printf("%d\n", strlen(&arr[0]+1));//随机值，
+//}
+
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	char arr[] = "abcdef";
+//	//printf("%d\n", sizeof(arr));//7 整个数组大小
+//	//printf("%d\n", sizeof(arr+0));//4 首元素地址大小
+//	//printf("%d\n", sizeof(*arr));//1 首元素大小
+//	//printf("%d\n", sizeof(arr[1]));//1 第二个元素大小
+//	//printf("%d\n", sizeof(&arr));//4 数组的地址
+//	//printf("%d\n", sizeof(&arr+1));//4 跳过整个数组后的地址
+//	//printf("%d\n", sizeof(&arr[0]+1));//4 第二个元素地址
+//
+//	printf("%d\n", strlen(arr));//6 整个数组
+//	printf("%d\n", strlen(arr + 0));//6 //首元素地址
+//	//printf("%d\n", strlen(*arr));//错误 
+//	//printf("%d\n", strlen(arr[1]));//错误
+//	printf("%d\n", strlen(&arr));//6 数组的地址,从a开始数 char(*p)[7]=&arr
+//	printf("%d\n", strlen(&arr + 1));//随机值，跳过整个数组后的地址
+//	printf("%d\n", strlen(&arr[0] + 1));//5 第二个元素地址
+//}
+
+
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	char* p = "abcdef";//存放的是首元素地址
+//	//printf("%d\n", sizeof(p));//4 计算指针变量p的大小
+//	//printf("%d\n", sizeof(p+1));//4 p+1得到b的地址
+//	//printf("%d\n", sizeof(*p));//1 第一个字符大小
+//	//printf("%d\n", sizeof(p[0]));//1 第一个字符大小p[0]=*p=(*p+0)
+//	//printf("%d\n", sizeof(&p));//4 数组的地址
+//	//printf("%d\n", sizeof(&p+1));//4 数组下一个地址
+//	//printf("%d\n", sizeof(&p[0]+1));//4 b的地址
+//
+//	printf("%d\n", strlen(p));//6 首元素开始数组大小
+//	printf("%d\n", strlen(p+1));//5 第二个元素开始数组大小
+//	//printf("%d\n", strlen(*p));//错误
+//	//printf("%d\n", strlen(p[0]));//错误
+//	printf("%d\n", strlen(&p));//随机值 a的地址所以为随机值
+//	printf("%d\n", strlen(&p+1));//随机值
+//	printf("%d\n", strlen(&p[0]+1));//5 第二个元素开始数组大小
+//}
+
+//二维数组
+//#include<stdio.h>
+//int main()
+//{
+//	int a[3][4] = { 0 };
+//	printf("%d\n", sizeof(a));//48 数组大小
+//	printf("%d\n", sizeof(a[0][0]));//4 首元素大小
+//	printf("%d\n", sizeof(a[0]));//16 第一行元素大小
+//	printf("%d\n", sizeof(a[0]+1));//4 第一行第二个的地址
+//	printf("%d\n", sizeof(*(a[0]+1)));//4 第一行第二个元素大小
+//	printf("%d\n", sizeof(a+1));//4 首元素+1为第二行元素地址，二维数组的首元素为第一行
+//	printf("%d\n", sizeof(*(a+1)));//16 
+//	printf("%d\n", sizeof(&a[0]+1));//4 第二行地址，&a[0]为第一行地址+1为第二行地址
+//	printf("%d\n", sizeof(*(&a[0]+1)));//16
+//	printf("%d\n", sizeof(*a));//16 第1行大小
+//	printf("%d\n", sizeof(a[3]));//16 第4行大小，没有第4行但是我们不进行计算所有和a[0]效果是一样的
+//}
+//练习1
+//#include<stdio.h>
+//int main()
+//{
+//	int a[5] = { 1,2,3,4,5 };
+//	int *ptr = (int*)(&a + 1);//&a+1=跳过数组下一个地址
+//	printf("%d %d", *(a + 1), *(ptr - 1));//2，5 (ptr-1)为数组结束最后一个数字的地址
+//}
+//练习2
+//#include<stdio.h>
+//struct Test
+//{
+//	int num;
+//	char *pcname;
+//	short sdate;
+//	char cha[2];
+//	short sba[4];
+//}*p;
+////p的值为0x100000,test大小为20为字节
+//int main()
+//{
+//	printf("%p\n", p + 0x1);//p=0x100000+20=0x100014
+//	printf("%p\n", (unsigned long)p + 0x1);//0x100000+0010 0000=1048576+1=1048577=0x100001
+//	printf("%p\n", (unsigned int*)p + 0x1);//4+0x100000=0x100004
+//}
+//练习3
+#include<stdio.h>
+int main()
+{                                  //低位      高位
+	int a[4] = { 1,2,3,4 };//小端存储01 00 00 00 ， 02 00 00 00 ，03 00 00 00，04 00 00 00
+	int* ptr1 = (int*)(&a + 1);   //00 00 00 04                01以后4个字节 00 00 00 02
+	int* ptr2 = (int*)((int)a + 1);//首元素地址转化为整型加1再转化为整型地址，0x02000000
+	printf("%x,%x", ptr1[-1], *ptr2);//4,2000000
+}
