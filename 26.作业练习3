@@ -1,0 +1,232 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//作业1
+//#include<stdio.h>
+//int main()
+//{
+//	unsigned long p1[] = { 6,7,8,9,10 };
+//	unsigned long *p;
+//
+//	p = p1;//首地址6
+//	*(p + 3) += 3;//*(p+3)=*(p+3)+3=12
+//	printf("%d %d", *p, *(p + 3));//6,12
+//}
+//作业2 写一个函数可以逆序字符串内容
+//#include<stdio.h>   // printf
+//#include<string.h> //  strlen
+//#include<assert.h>//   assert
+//void print(char* arr, int sz)
+//{
+//	assert(arr);//断言避免空字符
+//	char* left = arr;
+//	char* right = arr + sz - 1;
+//	while (left < right)
+//	{
+//		char tem = *left;
+//		*left = *right;
+//		*right = tem;
+//		left++;
+//		right--;
+//	}
+//}
+//int main()
+//{
+//
+//	char arr[256] = { 0 };
+//	gets(arr);//考虑到有空格的情况，采用gets
+//	int sz = strlen(arr);
+//	printf("逆序前%s\n", arr);
+//	print(arr, sz);
+//	printf("逆序后%s", arr);
+//}
+//作业3
+//输入一个数字求其例如：2+22+222+2222
+//#include<stdio.h>
+//int print(int a,int n)
+//{
+//	int i = 0;
+//	int sum = 0;
+//	int sum1 = 1;
+//	int tem = 0;
+//	for (i = 0; i < n; i++)
+//	{
+//		sum1 = sum1 * 10;//
+//	}
+//	for (i = 1; i <sum1 ; i=i*10)
+//	{
+//		tem = a * i +tem;//2 22 
+//		sum = tem + sum;//2 24
+//	}
+//	return sum;
+//}
+//int main()
+//{
+//	int a = 0;
+//	int n = 0;
+//	int sn = 0;
+//	scanf("%d %d", &a,&n);
+//	sn = print(a,n);
+//	printf("%d", sn);
+//}
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 0;
+//	int n = 0;
+//	scanf("%d %d", &a, &n);
+//	int sum = 0;
+//	int i = 0;
+//	int ret = 0;
+//	for (i = 0; i < n; i++)
+//	{
+//		ret = ret * 10 + a;
+//		sum = sum + ret;
+//	}
+//	printf("%d", sum);
+//}
+//作业4
+//打印1-10000的自幂数
+//#include<stdio.h>
+//#include<math.h>
+//int main()
+//{
+//	int i = 0;
+//	for (i = 0; i < 100000; i++)
+//	{
+//		//判断i是不是水仙花数（自幂数）
+//		//1.计算i的位数
+//		//2.计算i的每位n次方之和
+//		//3.比较sum和i
+//		int n = 1;
+//		int tmp = i;
+//		int sum = 0;
+//		while (tmp /= 10)//计算位数
+//		{
+//			n++;
+//		}
+//		tmp = i;
+//		while (tmp)//计算i的每一位的n次方之和
+//		{
+//			sum = sum + (int)pow(tmp % 10, n);//求次方
+//			tmp /= 10;
+//		}
+//		//比较i==sum
+//		if (sum == i)
+//		{
+//			printf("%d ", i);
+//		}
+//	}
+//}
+//作业5打印菱形
+//#include<stdio.h>
+//int main()
+//{
+//	int n = 0;
+//	scanf("%d", &n);
+//	int m = n / 2;
+//	//打印上半部分
+//	int i = 0;
+//	for (i = 0; i < m+1; i++)
+//	{
+//		//打印空格和*
+//		int j = 0;
+//		for (j = 0; j <m-i ; j++)
+//		{
+//			printf(" ");
+//		}
+//		for (j =2*(m-i) ; j < n; j++)
+//		{
+//			printf("*");
+//		}
+//		printf("\n");
+//	}
+//	//打印下半部分
+//	for (i = 0; i < m; i++)
+//	{
+//		//打印空格和*
+//		int j = 0;
+//		for (j = m-i-1; j < m; j++)
+//		{
+//			printf(" ");
+//		}
+//		for (j = 2*(i+2)-1; j <= n; j++)
+//		{
+//			printf("*");
+//		}
+//		printf("\n");
+//	}
+//}
+//#include<stdio.h>
+//int main()
+//{
+//	int line = 0;
+//	scanf("%d", &line);//这里的行为上半部分的行数
+//	//打印上半部分
+//	int i = 0;
+//	for (i = 0; i < line; i++)
+//	{
+//		int j = 0;
+//		for (j = 0; j < line - 1 - i; j++)
+//		{
+//			printf(" ");
+//		}
+//		for (j = 0; j < 2 * i + 1; j++)
+//		{
+//			printf("*");
+//		}
+//		printf("\n");
+//	}
+//	//打印下半部分
+//	for (i = 0; i < line-1; i++)
+//	{
+//		int j = 0;
+//		for (j = 0; j <i+1 ; j++)
+//		{
+//			printf(" ");
+//		}
+//		for (j = 0; j <2*(line-i-1)-1 ; j++)
+//		{
+//			printf("*");
+//		}
+//		printf("\n");
+//	}
+//}
+//作业6（.优先级大于*）
+//喝汽水问题一瓶汽水1元一个空瓶子0.5元，输入金额计算汽水数目
+//#include<stdio.h>
+//int main()
+//{
+//	int free = 0;
+//	scanf("%d", &free);
+//	int sum = 0;
+//	int i = 0;
+//	int count=0;
+//	while (free)
+//	{
+//		if (free % 2 != 0)
+//		{
+//			count++;
+//		}
+//		sum = sum + free + count / 2;
+//		free = free / 2;
+//	}
+//	printf("%d", sum);
+//}
+//老师的编程算法=2*money-1
+//#include<stdio.h>
+//int main()
+//{
+//	int money = 0;
+//	scanf("%d", &money);
+//	int total = 0;//买来的汽水
+//	int empty = 0;//空瓶数目
+//	//买来的汽水
+//	total = money;
+//	empty = money;
+//	//兑换的汽水
+//	while (empty >= 2)
+//	{
+//		total += empty / 2;
+//		empty = empty / 2 + empty % 2;//计算空瓶的时候要加上上一次剩余的瓶子
+//	}
+//	printf("%d", total);
+//}
