@@ -1,0 +1,174 @@
+
+//六.strncat追加函数
+//char* strncat(char* p1, const char* p2, size_t count)
+//追加会自动从\0开始追加且追加后会自动补充\0
+//追加过程中追加函数如果没有那么长就会追加完字符自动结束加\0
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	char arr1[30] = "hello";//
+//	char arr2[] = "world";
+//	strncat(arr1, arr2, 3);
+//	printf("%s", arr1);
+//}
+//模拟输出
+//#include<stdio.h>
+//#include<string.h>
+//char* my_strncat(char* arr1,const char* arr2, int k)
+//{
+//	char* ret = arr1;
+//	int len = strlen(arr2);
+//	while (*arr1 != '\0')
+//	{
+//		arr1++;
+//	}
+//	//arr1--;
+//	while (k--)
+//	{
+//		*arr1++ = *arr2++;
+//	}
+//	*arr1 = '\0';
+//	return ret;
+//}
+//int main()
+//{
+//	char arr1[20] = "abcde\0xxxxxx";
+//	char arr2[] = "bcde";
+//	my_strncat(arr1, arr2, 7);
+//	printf("%s", arr1);
+//}
+
+//七.strncmp
+//字符串比较函数
+//int strncmp(const char* p1, const char* p2, size_t count);
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	const char* p1 = "abcdef";
+//	char* p2 = "abcdef";
+//	int ret = strncmp(p1, p2, 3);//最后一位为字符比较的长度
+//	printf("%d", ret);
+//}
+
+//八.strstr找子字符串
+//char* strstr(const char* p1, const char p2);
+//NULL--空指针Null/NUL--'\0'
+
+//#include<stdio.h>
+//#include<string.h >
+//#include<assert.h>
+//char* my_strstr(const char* p1,const char* p2)
+//{
+//	assert(p1 != NULL);
+//	assert(p2 != NULL);
+//	char* s1 = (char*)p1;
+//	char* s2 = (char*)p2;
+//	char* tem = (char*)p1;
+//	if (*p2 == '\0')
+//	{
+//		printf("为空指针");
+//		return (char*)p1;
+//	}
+//	while (*tem)
+//	{
+//		s1 = (char*)tem;//s1需要进行移位进行对比
+//		s2 = (char*)p2;//重新赋值避免出现abbbcde   bbc的情况
+//		while ((*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
+//		{
+//			s1++;
+//			s2++;
+//		}
+//		if (*s2 == '\0')
+//		{
+//			return tem;
+//		}
+//		if (*s1 == '\0')
+//		{
+//			return NULL;
+//		}
+//		tem++;
+//	}
+//	return NULL;
+//}
+//int main()
+//{
+//	char* p1 = "aabcdfg";
+//	char* p2 = "abc";
+//	char* ret = my_strstr(p1, p2);
+//	if (ret != NULL)
+//	{
+//		printf("存在");
+//	}
+//	else
+//	{
+//		printf("不存在");
+//	}
+//}
+
+//九.strtok
+//char* strtok(char* str,const char* sep)
+//前为要分割的字符，后为分割符号
+//遇见分割符号就会将其改为\0
+//strtok会破坏字符串一般将字符串进行临时拷贝再进行切割
+//strtok函数的第一个参数不为 NULL ，函数将找到str中第一个标记，strtok函数将保存它在字符串中的位置。
+//
+//strtok函数的第一个参数为 NULL ，函数将在同一个字符串中被保存的位置开始，查找下一个标记。
+//
+//如果字符串中不存在更多的标记，则返回 NULL 指针。
+//#include<stdio.h>
+//#include<string.h>
+//int main()
+//{
+//	//192.168.31.121
+//	//strtok可以将上面的字符串分开
+//	char arr[] = "zpw@sdfhskg.dfghj";
+//	char* p = "@.";
+//	char buff[1024] = { 0 };//创建临时字符对其进行差分保持原字符串不变
+//	strcpy(buff, arr);//临时字符串
+//
+//	char* ret = NULL;
+//	for (ret = strtok(buff, p); ret != NULL; ret = strtok(NULL, p))//内部有静态变量记住位置使其不变
+//	{
+//		printf("%s\n", ret);
+//	}
+//	//char* p = strtok(arr, pp);
+//	//printf("%s\n", p);
+//
+//	//p = strtok(NULL, pp);
+//	//printf("%s\n", p);
+//
+//	//p = strtok(NULL, pp);
+//	//printf("%s\n", p);
+//	return 0;
+//}
+
+
+//十.错误报告函数strerror
+//返回错误码的信息
+//作用将错误码翻译为错误信息
+#include<stdio.h>
+#include<string.h>
+#include <errno.h>
+int main()
+{
+	//错误码--错误信息
+	//0--     No error
+	//1--     Operation not permitted
+	//2--     No such file or directory
+	//....
+	//errno是全局错误码的变量
+	//当c语言在指行过程中发生什么错误，就会将对应的错误码赋值到erron
+
+	//fopen打开文件
+	FILE* pf = fopen("test.txt", "r");
+	if (pf == NULL)
+	{
+		printf("%s\n", strerror(errno));
+	}
+	else
+	{
+		printf("open file success\n");
+	}
+}
