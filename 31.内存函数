@@ -1,0 +1,153 @@
+//十一.字符分类函数
+//iscntrl
+//isspace
+//isdigit
+//isxdigit
+//islower
+//isupper
+//isalnum
+//字符转换函数tolower  toupper
+//实现字符大小写的转换
+//#include<stdio.h>
+//int main()
+//{
+//	char arr[] = "I LOVE You";
+//	int i = 0;
+//	while (arr[i])
+//	{
+//		if (isupper(arr[i]))
+//		{
+//			arr[i] = tolower(arr[i]);
+//		}
+//		i++;
+//	}
+//	printf("%s", arr);
+//}
+
+//内存函数
+//memcmp memmove memcpy memset
+//字符串函数不能对整型浮点型使用
+
+//memcpy内存拷贝
+//void*无类型指针
+//void* memcpy(void* p1,const void* p2,size_t num)
+//#include<stdio.h>
+//#include<assert.h>
+//struct s
+//{
+//	char name[20];
+//	int age;
+//};
+////void* 不能进行解引用操作
+//void* my_memcpy(void* dest, const void* src, size_t num)
+//{
+//	assert(dest);
+//	assert(src);
+//	void* ret = dest;
+//	while (num--)
+//	{
+//		*(char*)dest = *(char*)src;
+//		++(char*)dest;
+//		++(char*)src;
+//	}
+//	return ret;
+//}
+//int main()
+//{
+//	int arr1[] = { 1,2,3,4,5 };
+//	int arr2[5] = { 0 };
+//	struct  s arr3[] = { {"刘浩",22},{"刘禅雨",10} };
+//	struct  s arr4[3] = { 0 };
+//	my_memcpy(arr4, arr3, sizeof(arr3));
+//	memcpy(arr2, arr1, sizeof(arr1));
+//}
+//模拟输出
+//自我拷贝将自己内部部分数据拷贝到自己内部另一个位置
+//#include<stdio.h>
+//#include<string.h>
+//#include<assert.h>
+////模拟输出
+//void* my_memmove(void* dest, void* src, size_t count)
+//{
+//	assert(dest);
+//	assert(src);
+//	void* ret = dest;
+//	//1 2 3 4 5 6 7 8 9 10
+//	//4 5 6 7 8移动到2 3 4 5 6从前到后 需要从后到前就从前到后进行拷贝
+//	//2 3 4 5 6移动到4 5 6 7 8从后到前
+//	//_______src_______src+count_______
+//	//前到后    后到前          都可以
+//	//dest<src   dest>src&&dest<src+count  dest>src+count
+//	if (dest < src)
+//	{
+//		//前到后
+//		while (count--)
+//		{
+//			*(char*)dest = *(char*)src;
+//			++(char*)dest;
+//			++(char*)src;
+//		}
+//	}
+//	else
+//	{
+//		//3 4 5 6 7 - 5 6 7 8 9
+//		//后向前
+//		//03 00 00 00 04 00 00 00 05 00 00 00 06 00 00 00 07 00 00 00 08 00 00 00 09 00 00 00
+//		while (count--)
+//		{
+//			*((char*)dest + count) = *((char*)src + count);
+//		}
+//	}
+//	//第二种判断方式
+//	//if (dest<src || dest>(char*)src + count)
+//	//{
+//	//	//前到后
+//	//}
+//	//else
+//	//{
+//
+//	//}
+//	return ret;
+//}
+//int main()
+//{
+//	//拷贝过程中进行了自我覆盖12345拷贝到34567
+//	//方法1.可以将5-7，4-6，3-5，2-4，1-3这样进行倒着进行拷贝
+//	//有的情况进行从后到前拷贝有的情况进行从前到后拷贝进行分类讨论
+//	//运用memmoce()处理内容重叠的情况
+//	//memcpy处理不重叠
+//	//memmove处理重叠的
+//	int arr[] = { 1,2,3,4,5,6,7,8,9,10};
+//	int i = 0;
+//	//my_memcpy(arr + 2, arr, 20);
+//	my_memmove(arr + 2, arr+3, 20);//5x4  4 5 6 7 8->3 4 5 6 7
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d", arr[i]);
+//	}
+//}
+
+
+//memcmp
+//int memcmp(const void* p1,const void* p2,size_t num)
+//#include<stdio.h>
+//int main()
+//{
+//	//01 00 00 00 02 00 00 00 03 00 00 00 04 00 00 00 05 00 00 00
+//	//01 00 00 00 02 00 00 00 03 00 00 00 04 00 00 00 06 00 00 00
+//	int arr1[] = { 1,2,3,4,5 };
+//    int arr2[] = { 1,2,3,4,6 };
+//	int ret = memcmp(arr1, arr2, 8);//4x2前8个字节，比较字节字数
+//	printf("%d", ret);
+//}
+
+//memset内存设置函数
+//void* memset(void* p1,void* p2,size_t count)
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char arr[10] = "";
+	memset(arr, '#', 9);//数字表示字节的意思注意int 4个字节
+	printf("%s", arr);//只能9个\0需要留一个
+}
