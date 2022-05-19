@@ -1,0 +1,232 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//自定义类型--复杂类型
+//结构体、枚举、联合体
+//#include<stdio.h>
+//
+////声明一个结构体类型
+////声明一个学生类型，通过学生类型来创建学生变量
+////描述学生：属性
+////      结构体标签
+//struct stu
+//{
+//	//结构体信息
+//	char name[20];//姓名
+//	char tele[12];//电话
+//	char sex[10];//性别
+//	int age;//年龄
+//}s3;//创建结构体变量（全局）
+//
+//struct stu s2;//创建结构体变量（全局）
+//int main()
+//{
+//	int num;
+//	char c;
+//	//创建结构体变量
+//	struct stu s1;
+//}
+
+//特殊声明（匿名结构体类型）
+//就是结构体没有名字但是在其后面声明变量，通过变量来金星访问
+//#include<stdio.h>
+//struct
+//{
+//	int a;
+//	char c;
+//}x;
+////二个匿名结构体是不一样的
+////不能psa=&x
+//struct
+//{
+//	int a;
+//	char c;
+//}* psa;//结构体指针
+//int main()
+//{
+//
+//}
+
+//结构体·的自引用
+//链表一个找到下一个，下一个找到下下个
+
+//数据域加指针域
+//typedef struct node
+//{
+//	int date;//4
+//	struct node* next;//4 下一个结构体的地址
+//}node;
+//int main()
+//{
+//	node n1;
+//}
+
+//#include<stdio.h>
+//struct t
+//{
+//	double weight;
+//	short age;
+//};
+//struct s
+//{
+//	char c;
+//	int a;
+//	double d;
+//	char arr[20];
+//	struct t st;
+//};
+//int main()
+//{
+//	struct s a = { 'c',100,3.14,"hello",{90.3,22} };
+//	printf("%c %d %lf %s %lf %d", a.c, a.a, a.d, a.arr,a.st.weight,a.st.age);
+//}
+
+//结构体内存对齐
+//#include<stdio.h>
+//struct s1
+//{
+//	char c1;
+//	int a;
+//	char c2;
+//};
+//struct s2
+//{
+//	char c1;
+//	char c2;
+//	int a;
+//};
+//int main()
+//{
+//	struct s1 s1 = { 0 };
+//	//内存存放
+//
+//	//注意对齐数的整数倍开始存储字节
+//
+//	//第一个成员在与结构体变量偏移量为0（中间相差多少个空）的地址处（第二个开始）
+//	//其他成员变量要对齐到某个数字（对齐数）的整数倍的地址处
+//	//对齐数 = 编译器默认的一个对齐数 与 该成员大小的较小值（vs为8）
+//	//结构体总大小为最大对齐数（每个成员变量都有一个对齐数）的整数倍
+//	//如果嵌套了结构体的情况，嵌套的结构体对齐到自己的最大对齐数的整数倍处，结构体的整
+//	//体大小就是所有最大对齐数（含嵌套结构体的对齐数）的整数倍
+//	//偏移1个 char1个 对齐要偏移4个 int4个 char1个=9要整数倍12 
+//	printf("%d\n", sizeof(s1));//12
+//	struct s2 s2 = { 0 };
+//	//char1个 偏移对齐1 char1个 偏移对齐到4 int4个=8为最大对齐数整数倍
+//	printf("%d", sizeof(s2));//8
+//}
+//#include<stdio.h>
+//struct s3
+//{
+//	double d;
+//	char c;
+//	int i;
+//};
+//
+//struct s4
+//{
+//	char c1;
+//	struct s3 s3;//s3最大为8
+//	double s;
+//};
+//int main()
+//{
+//	printf("%d\n", sizeof(struct s3));//16
+//	printf("%d\n", sizeof(struct s4));//32
+//}
+//内存对齐用空间换取时间，方便移植
+//让占用空间小的变量放在一起
+//修改默认对齐数
+//#include<stdio.h>
+//
+//#pragma pack(4)//修改了默认对齐数8-->4
+//struct s
+//{
+//	char a;
+//	double b;
+//};
+//#pragma pack()//取消修改变为默认对齐数4-->8
+//
+//int main()
+//{
+//	struct s s;
+//	printf("%d", sizeof(s));//12
+//}
+//#include<stdio.h>
+//#include<stddef.h>//offsetof头文件
+//struct s
+//{
+//	char c;//偏移为0
+//	int i;//偏移为4
+//	double d;//偏移为8
+//};
+//int main()
+//{
+//	//offsetof();//计算结构体成员相对偏移量
+//	printf("%d\n", offsetof(struct s, c));
+//	printf("%d\n", offsetof(struct s, i));
+//	printf("%d\n", offsetof(struct s, d));
+//	return 0;
+//}
+
+//结构体初始化只能1.在主函数内部初始化，2.在主函数外调用函数初始化，运用指针
+//#include<stdio.h>
+//struct s
+//{
+//	int a;
+//	char c;
+//	double d;
+//};
+//void Init(struct s* tmp)
+//{
+//	tmp->a = 100;
+//	tmp->c = 'w';
+//	tmp->d = 2.34;
+//	printf("%d %c %lf\n", tmp->a, tmp->c, tmp->d);//传递指针可以节约空间
+//}
+////传值打印
+//void print(struct s tmp)
+//{
+//	printf("%d %c %lf", s.a, s.c, s.d);
+//}
+////传址打印
+//void print(const struct s* tmp)//保证数值不变
+//{
+//	printf("%d %c %lf\n", tmp->a, tmp->c, tmp->d);
+//}
+//int main()
+//{
+//	struct s s = { 0 };
+//	Init(&s);
+//	printf("%d %c %lf", s.a, s.c, s.d);
+//}
+
+
+//位段
+//1.位段的成员必须是 int、unsigned int 或signed int
+//2.位段的成员名后边有一个冒号和一个数字
+//二进制位
+//1.位段的成员可以是 int unsigned int signed int 或者是 char （属于整形家族）类型
+//2.位段的空间上是按照需要以4个字节（ int ）或者1个字节（ char ）的方式来开辟的。
+//3.位段涉及很多不确定因素，位段是不跨平台的，注重可移植的程序应该避免使用位段
+//#include<stdio.h>
+//struct s
+//{
+//	int a : 2;//2个比特位
+//	int b : 5;//5个比特位
+//	int c : 10;
+//	int d : 30;
+//};
+//struct a
+//{
+//	char a : 3;
+//	char b : 4;
+//	char c : 5;
+//	char d : 4;
+//};
+////47bit--6个字节
+////abc占4个字节，d占4个字节
+//int main()
+//{
+//	struct s s;
+//	struct a a;
+//	printf("%d\n", sizeof(s));//8
+//	printf("%d", sizeof(a));//3
+//}
