@@ -1,0 +1,88 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//枚举
+//#include<stdio.h>
+//enum sex
+//{
+//	//枚举类型可能取值
+//	man=6,
+//	woman=9//可以对枚举赋值但是赋值后不能进行修改了
+//};
+////赋值后默认从赋值数开始赋值，之前就默认从0开始
+//enum color
+//{
+//	red,
+//	blue,
+//	yellow
+//};
+//int main()
+//{
+//	enum sex s = man;
+//	enum color c = red;//对其进行幅枚举值
+//	printf("%d %d %d", red, blue, yellow);//0 1 2
+//}
+
+//枚举的优点
+//1. 增加代码的可读性和可维护性
+//2. 和#define定义的标识符比较枚举有类型检查，更加严谨。
+//3. 防止了命名污染（封装）
+//4. 便于调试
+//5. 使用方便，一次可以定义多个常量
+//enum大小
+//大小为整型的大小
+
+
+//联合/联合体/共用体
+//成员共用一块空间
+//大小为最大的成员大小
+//#include<stdio.h>
+//union un
+//{
+//	char c;//不能同时使用
+//	int i;
+//};
+//int main()
+//{
+//	union un u;
+//	printf("%d\n", sizeof(u));//4
+//	printf("%p\n", &(u.c));//地址相同
+//	printf("%p\n", &(u.i));//都从起始位置开始向后存放
+//	printf("%p", &u);
+//}
+//确定编译软件是小端还是大端存储
+#include<stdio.h>
+int check()
+{
+	union un
+	{
+		char c;
+		int i;
+	}u;//  高位  低位
+	u.i = 1;//0001
+	return u.c;//返回1为小端，0为大端
+}
+int main()
+{
+	int a = 1;
+	//if (1 == *(char*)&a)//转化为字符指针访问第一位
+	//{
+	//	printf("小端");
+	//}
+	//else
+	//{
+	//	printf("大端");
+	//}
+	
+	int ret = check();
+	if (ret == 1)
+	{
+		printf("小端");
+	}
+	else
+	{
+		printf("大端");
+	}
+	//低地址                      高地址
+	//  11  22  33  44 大端位存储
+	//  44  33  22  11 小端位存储
+
+}
