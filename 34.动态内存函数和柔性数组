@@ -1,0 +1,471 @@
+//栈区：函数的形式参数
+//堆区：动态内存分配
+//静态区：全局变量，静态变量
+//动态存储
+//变长数组vs一般不支持
+
+
+//动态内存分配函数
+//malloc  free  calloc  realloc
+
+//malloc
+//开辟内存块
+#define _CRT_SECURE_NO_WARNINGS 1
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//#include<stdlib.h>
+//#include<Windows.h>
+//int main()
+//{
+//	int i = 0;
+//	//默认出来为void*强制转化为int*
+//	int* p =(int*)malloc(10 * sizeof(int));//向内存申请10个整形空间
+//	if (p == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	else
+//	{
+//		//正常使用空间
+//		for (i = 0; i < 10; i++)
+//		{
+//			*(p + i) = i;
+//		}
+//		for (i = 0; i < 10; i++)
+//		{
+//			printf("%d ", *(p + i));
+//		}
+//	}
+//	//不再使用时空间释放
+//	free(p);//释放内存，这样其他就又能使用这段空间
+//	//p虽然还了空间但是里面的值和空间还存在联系
+//	p = NULL;
+//	//使用free必须是动态开辟的空间
+//}
+
+
+//calloc
+//与函数 malloc 的区别只在于 calloc 会在返回地址之前把申请的空间的每个字节初始化为全0
+//int main()
+//{
+//	int* p = (int*)calloc(10, sizeof(int));//10个int
+//	if (p == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	else
+//	{
+//		int i = 0;
+//		for (i = 0; i < 10; i++)
+//		{
+//			printf("%d ", *(p + i));
+//		}
+//	}
+//	free(p);
+//	p = NULL;
+//}
+
+//realloc增加内存空间
+//int main()
+//{
+//	int* p = (int*)malloc(20);
+//	if (p == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	else
+//	{
+//		int i = 0;
+//		for (i = 0; i < 5; i++)
+//		{
+//			*(p + i) = i;
+//		}
+//	}
+//	//开辟了20个字节的空间
+//	//假设这里20个字节不够了要40个
+//	//可以使用realloc来调整动态开辟的内存
+//	//注意事项
+//	//1.如果p指向的空间有足够的内存可以追加，直接追加
+//	//2.如果p指向的空间没有足够的内存空间，就需要重新找一个新的区域，开辟一块满足需求的空间，并将原来内存的数据拷贝过来
+//	//3.需要用一个新的变量来接收realloc函数的返回值
+//	int* ptr = realloc(p, 40);//	开辟了新的空间采用相同命名有风险 
+//	if (ptr != NULL)
+//	{
+//		//注意realloc追加失败时就会把p变为空指针，不安全
+//		p = ptr;
+//		int i = 0;
+//		for (i = 5; i < 10; i++)
+//		{
+//			*(p + i) = i;
+//		}
+//		for (i = 0; i < 10; i++)
+//		{
+//			printf("%d ", *(p + i));
+//		}
+//	}
+//}
+
+
+//int main()
+//{
+	//常见的动态内存错误
+	//1.对NULL进行解引用操作
+	//2.对动态开辟空间越界访问
+	//3.对非动态开辟的内存free
+	//int *p = (int*)malloc(5 * sizeof(int));
+	//if (p = NULL)//没有这个语句就可能造成NULL解引用
+	//{
+	//	return 0;
+	//}
+	//else
+	//{
+	//	int i = 0;
+	//	for (i = 0; i < 10; i++)//进行了越界访问
+	//	{
+	//		*(p + i) = i;
+	//	}
+	//}
+	//free(p);
+	//p = NULL;
+	//int a = 10;
+	//int* p = &a;
+	//*p = 20;
+	//free(p);
+	//p = NULL;//对非动态开辟的内存free
+//}
+
+//
+//int main()
+//{
+	//int* p = (int*)malloc(40);
+	//if (p == NULL)
+	//{
+	//	return 0;
+	//}
+	//int* p2 = realloc(p, 60);
+	//if (p2 != NULL)
+	//{
+	//	p = p2;
+	//}
+
+	//realloc也可以开辟空间
+	//int* p = realloc(NULL, 40);//开辟空间
+
+	//4.使用free释放动态开辟内存的一部分
+	//int *p = (int*)malloc(40);
+	//if (p = NULL)
+	//{
+	//	return 0;
+	//}
+	//int i = 0;
+	//for (i = 0; i < 10; i++)
+	//{
+	//	*p++ = i;
+	//}
+	//free(p);//这时候回收的的空间已经不是我们之前的空间了已经改变了，free要从p开头起始位置开始回收，不能回收一部分
+	//p = NULL;
+
+
+	//5.对同一块动态内存的多次释放
+	//谁申请谁回收
+	//在其后面置为空指针
+
+	//6.动态开辟内存忘记释放（内存泄露）
+//	while (1)
+//	{
+//		malloc(1);//一直在开辟没有回收
+//		Sleep(1000);
+//	}
+//}
+
+//案例1
+//void getmemory(char* p)
+//{
+//	p = (char*)malloc(100);
+//}
+//
+//void test(void)
+//{
+//	char *str = NULL;
+//	getmemory(str);//没有存放到str而实p里面，这时的str还是NULL
+//	strcpy(str, "hello world");//这时就会出现hello word不知道拷贝到什么地方
+//	printf(str);
+//}
+//
+//int main()
+//{
+//	test();
+//}
+//改变1
+//void getmemory(char* *p)
+//{
+//	*p = (char*)malloc(100);
+//}
+//
+//void test(void)
+//{
+//	char *str = NULL;
+//	getmemory(&str);//传递地址过去就能够将开辟空间带到函数内部
+//	strcpy(str, "hello world");//
+//	printf(str);
+//	free(str);
+//	str = NULL;
+//}
+//
+//int main()
+//{
+//	test();
+//}
+//改变2
+//char* getmemory(char* p)
+//{
+//	p = (char*)malloc(100);
+//	return p;
+//}
+//
+//void test(void)
+//{
+//	char *str = NULL;
+//	str = getmemory(str);//返回了p
+//	strcpy(str, "hello world");//
+//	printf(str);
+//}
+//
+//int main()
+//{
+//	test();
+//}
+
+//案件2
+//char* getmemory(void)
+//{
+//	char p[] = "hello world";//临时变量
+//	return p;//确实返回了但是p里面的内容也被清除了导致输出时报错
+//}
+//
+//void test(void)
+//{
+//	char *str = NULL;
+//	str = getmemory();//str为NULL
+//	printf("%s",str);
+//}
+//int main()
+//{
+//	test();
+//}
+
+
+//案件3
+//void test()
+//{
+//	int a = 10;//栈区
+//	return &a;//返回a中的数值就没有了
+//}
+//int main()
+//{
+//	int* p = test();//这里就不允许可以在上面a加上static变为全局变量就可以使用
+//	*p = 20;
+//
+//}
+
+//栈区返回要取地址
+//堆区返回要free
+//案件4
+//int* test()
+//{
+//	int* ptr = malloc(100);
+//	return ptr;//这样就可以返回因为返回本身就是地址
+//}
+//int main()
+//{
+//	int* p = test();//
+//}
+
+//案件5
+//void getmemory(char* *p,int num)
+//{
+//	*p = (char*)malloc(num);//
+//	//内存未释放,可以在不使用时释放掉
+//}
+//
+//void test(void)
+//{
+//	char *str = NULL;
+//	getmemory(&str,100);//传递地址过去就能够将开辟空间带到函数内部
+//	strcpy(str, "hello");//..可以进行输出hello
+//	printf(str);
+//	free(str);
+//	str = NULL;
+//}
+//
+//int main()
+//{
+//	test();
+//}
+
+//案件6
+//void test(void)
+//{
+//	char* str = (char*)malloc(100);
+//	strcpy(str, "hello");
+//	free(str);//对str进行释放但是并没有未NULL
+//	//free释放str指向的空间后并不会把str置为NULL，需要修改就要加上下面这句话
+//	//str = NULL;
+//	if (str != NULL)//已经释放了但是还是进行了访问
+//	{
+//		strcpy(str, "word");
+//		printf(str);
+//	}
+//}
+//int main()
+//{
+//	test();
+//}
+
+
+
+//柔性数组
+//结构中的最后一个元素允许为未知大小的数组
+#include<stdio.h>
+#include<string.h>
+#include<errno.h>
+#include<stdlib.h>
+#include<Windows.h>
+
+//方法1
+//将int和柔性数组大小相加得到结构体大小
+//struct s
+//{
+//	int n;
+//	int arr[];//未知大小但是允许存在
+//	//arr[0]/arr[]
+//};
+//int main()
+//{
+//	struct s s;
+//	printf("%d\n", sizeof(s));//4,柔性数组不包含在大小内
+//}
+//int main()
+//{
+//	struct s* ps = (struct s*)malloc(sizeof(struct s) + 5 * sizeof(int));//假设加上5个整型
+//	//前4个字节为n 后面加上的为柔性数组开辟的
+//	//ps指向开头
+//	ps->n = 100;
+//	int i = 0;
+//	for (i = 0; i < 5; i++)
+//	{
+//		ps->arr[i] = i;//0,1,2,3,4
+//	}
+//	//当内存不够直接在柔性数组加上
+//	struct s*ptr = realloc(ps, 44);
+//	if (ptr != NULL)
+//	{
+//		ps = ptr;
+//	}
+//	for (i = 5; i < 10; i++)
+//	{
+//		ps->arr[i] = i;
+//	}
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d", ps->arr[i]);
+//	}
+//	free(ps);
+//	ps = NULL;
+//}
+
+//方法2
+//方法二用一个可变的数组代替柔性数组使其可变动
+//struct s
+//{
+//	int n;
+//	int* arr;//对标arr[]/arr[0]   可以通过下面方式代替柔性数组
+//};
+//int main()
+//{
+//	struct s* ps = (struct s*)malloc(sizeof(struct s));//malloc开辟了空间存放n和arr指向地址
+//	ps->arr = malloc(5 * sizeof(int));//这一行代码对标柔性数组让arr指向的数组位置可变
+//	int i = 0;
+//	for (i = 0; i < 5; i++)
+//	{
+//		ps->arr[i] = i;
+//	}
+//	for (i = 0; i < 5; i++)
+//	{
+//		printf("%d ", ps->arr[i]);
+//	}
+//	//调整大小
+//	int *ptr = realloc(ps->arr, 10 * sizeof(int));
+//	if (ptr != NULL)
+//	{
+//		ps->arr = ptr;
+//	}
+//	for (i = 5;i < 10; i++)
+//	{
+//		ps->arr[i] = i;
+//	}
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d", ps->arr[i]);
+//	}
+//	//需要释放二块空间
+//	//但是要注意先后顺序
+//	free(ps->arr);
+//	ps->arr = NULL;
+//	free(ps);
+//	ps = NULL;
+//}
+
+//通过上面我们对比柔性数组和方法2的优点
+//1.第二种方法容易出错，因为要多次释放
+//2.malloc的使用容易使内存碎片增加
+//3.当使用realloc时方法二的内存空间是不连续的而柔性数组内存空间是连续的，连续会使计算机运算快一点
+
+//struct s
+//{
+//	int n;
+//	int arr[0];//创建数组为0的数组只有在结构体当中使用==>柔性数组
+//};
+//
+//int main()
+//{
+//	struct s* ptr = (struct s*)malloc(sizeof(struct s) + 10 * sizeof(int));//柔性数组进行开辟空间,前4个为n开辟，后面40个为arr开辟
+//	return 0;
+//}
+//柔性数组特点
+//1.结构中的柔性数组成员至少有一个其他成员
+//2.sizeof返回结构大小不包括柔性数组大小
+//3.柔性数组进行开辟空间，
+
+
+struct s
+{
+	int n;
+	int* arr;
+};
+
+int main()
+{
+	struct s* p = (struct s*)malloc(sizeof(struct s));
+	p->n = 100;
+	p->arr = (int*)malloc(10 * sizeof(int));//
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		p->arr[i] = i;
+	}
+	for (i = 0; i < 10; i++)
+	{
+		printf("%d", p->arr[i]);
+	}
+	free(p->arr);
+	p->arr = NULL;
+	free(p);
+	p = NULL;
+}
+
+//作业静态通讯录变为动态通讯录
+//通讯录人数动态增长
+//1.默认存放3个人信息
+//2.当发现人员满时进行扩容，每次增加2个信息空间
