@@ -1,0 +1,331 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//文件操作
+//程序文件，数据文件
+//程序文件有以下几种
+//源文件.c
+//windows目标文件.obj
+//windows可执行程序.exe
+//数据文件：内容不一定是程序，而是运行时读写的数据
+
+//文件，路径+文件名+类型
+//数据文件分为文本文件和二进制文件二种
+//通过二进制直接存储为二进制文件
+//二进制进行转化（ASCLL）后存储称为文本文件
+
+//字符一律按照ASCLL存储，数字既可以按ASCLL存储也可以按照二进制存储
+//例如10000，ASCLL存储就为5个字节，二进制存储就为4个字节
+
+//#include<stdio.h>
+//int main()
+//{
+//	int a = 10000;
+//
+//
+
+
+//文件缓冲区
+//系统自动的在内存为程序中每一个使用的文件开辟一块文件缓存区
+//程序数据区和磁盘之间存在输出、输入缓冲区
+//r读文件w写文件（没有会建立一个新文件会销毁之前的文件）
+
+//#include<stdio.h>
+//#include<errno.h>
+//int main()
+//{
+//	//fopen("../test.txt", "r");//当前路径的上一路径
+//	
+//	//fopen("G:\\兴趣\\程序\\第31天\\Project1\\Project1\\test.txt", "r");//打开文件绝对路径
+//	FILE* pf = fopen("test.txt", "r");//相对路径
+//	//打开文件
+//	//pf->test.txt文件信息区->test.txt
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	//打开成功
+//	//读文件
+//	
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//}
+
+#include<stdio.h>
+#include<errno.h>
+#include<string.h>
+
+//写
+//文件的顺序读写
+//字符输入函数fgetc
+//字符输出函数fputc
+//int main()
+//{
+//  FILE*文件指针
+//	FILE* pf = fopen("test.txt", "w");//相对路径,w写入字符
+//	//打开文件
+//	//pf->test.txt文件信息区->test.txt
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 0;
+//	}
+//	//写文件
+//	
+//	fputc('b', pf);
+//	fputc('i', pf);
+//	fputc('t', pf);
+//	
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//}
+
+//读
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 0;
+//	}
+//	//读文件
+//	printf("%c", fgetc(pf));
+//	printf("%c", fgetc(pf));
+//	printf("%c", fgetc(pf));
+//	//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//}
+
+
+//我们可以注意到不管我们程序对文件进行写入还是读取，我们都需要打开文件，但是
+//现实生活中我们电脑显示器和键盘我们都是直接使用
+//键盘和显示器是默认打开的二个流设备
+//键盘-标准输入设备stdin
+//显示器-标准输出设备stdout
+//电脑会默认打开的三个流
+//stdin FILE*
+//stdout FILE*
+//stderr FILE*
+
+//int main()
+//{
+//	int ch = fgetc(stdin);//标准键盘输入
+//	fputc(ch, stdout);//标准显示器输出
+//}
+
+
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//int main()
+//{
+//	////打开文件,w进行写文件，r进行字符读文件
+//	//FILE* pf = fopen("test.txt", "w");
+//	//if (pf == NULL)
+//	//{
+//	//	printf("%s\n", strerror(errno));
+//	//}
+//	////写文件
+//	//fputc('b', pf);
+//	////关闭文件
+//	//fclose(pf);
+//	//pf = NULL;
+//	//return 0;
+//
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	//字符写文件
+//	int ch = fgetc(pf);//读取返回为int型
+//	printf("%c", ch);
+//	ch = fgetc(pf);//读取返回为int型
+//	printf("%c", ch);
+//	ch = fgetc(pf);//读取返回为int型
+//	printf("%c", ch);
+//
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+
+
+//fgets fgetws文本行输入
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//int main()
+//{
+//	char buf[1024] ={0};
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	//
+//	fgets(buf, 1024, pf);////读取一行
+//	printf("%s", buf);
+//
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+
+//fputs文本行输出函数
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//int main()
+//{
+//	char buf[1024] = { 0 };
+//	FILE* pf = fopen("test.txt", "w");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//	}
+//	//
+//	fputs("hello\n", pf);
+//	fputs("liu\n", pf);
+//
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//int main()
+//{
+//	char buf[1024] = { 0 };
+//	fgets(buf, 1024, stdin);//键盘输入
+//	fputs(buf,stdout);//标准显示器输出
+//}
+
+//fgetc字符输入
+//fputc字符输出（int）
+//fgets字符串输入
+//fputs字符串输出
+//fscanf格式化输入
+//fprintf格式化输出
+//输出就是输出到文件当中
+//输入就是将文件中的信息进行提取
+
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//struct s
+//{
+//	int n;
+//	float score;
+//	char arr[10];
+//};
+//int main()
+//{
+//	//struct s s = { 100,3.14f,"bit" };
+//	//FILE* pf = fopen("test.txt", "w");
+//	//if (pf == NULL)
+//	//{
+//	//	return 0;
+//	//}
+//	////格式化写入
+//	//fprintf(pf, "%d %f %s", s.n, s.score, s.arr);
+//
+//	//fclose(pf);
+//	//pf = NULL;
+//	//return 0;
+//
+//	struct s s = { 0 };
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		return 0;
+//	}
+//	fscanf(pf ,"%d %f %s\n", &(s.n), &(s.score), &(s.arr));
+//	printf("%d %f %s", s.n, s.score, s.arr);
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//int main()
+//{
+//	struct s s = { 0 };
+//	fscanf(stdin, "%d %f %s", &(s.n), &(s.score), &(s.arr));//输入
+//	fprintf(stdout, "%d %f %s", s.n, s.score, s.arr);//输出
+//}
+
+
+
+//对比一下三组函数
+//scanf\printf  是针对标准输入流\输出流的格式化输入\输出语句
+//fscanf\fprintf是针对所有输入流\输出流的格式化输入\输出语句
+//sscanf\sprintf sscanf是从字符串中读取格式化的数据 sprintf是把格式化的数据输出存储到字符串
+
+
+//#include<stdio.h>
+//#include<string.h>
+//#include<errno.h>
+//struct s
+//{
+//	int n;
+//	float score;
+//	char arr[10];
+//};
+//int main()
+//{
+//	struct s s = { 100,3.14f,"agsdfg" };
+//	struct s tmp = { 0 };
+//	char buf[1024] = { 0 };
+//	sprintf(buf, "%d %f %s", s.n, s.score, s.arr);
+//	printf("%s\n", buf);//把格式的数据转化成为字符串存储到buf
+//
+//	sscanf(buf, "%d %f %s", &(tmp.n), &(tmp.score), &(tmp.arr));//将buf中进行提取格式数据到tmp当中
+//	printf("%d %f %s", tmp.n, tmp.score, tmp.arr);
+//}
+
+
+
+//记录日志
+//二进制输入Fread输出
+#include<stdio.h>
+#include<string.h>
+#include<errno.h>
+
+struct s
+{
+	char name[20];
+	int age;
+	double score;
+};
+int main()
+{
+	//struct s s = { "liuhao",22,89.89 };
+	//FILE* pf = fopen("test.txt", "wb");//二进制输入
+	//if (pf == NULL)
+	//{
+	//	return 0;
+	//}
+	////写文件
+	//fwrite(&s, sizeof(struct s), 1, pf);
+	//fclose(pf);
+	//pf = NULL;
+	//return 0;
+
+	struct s tmp = { 0 };
+	FILE* pf = fopen("test.txt", "wb");//二进制输入
+	if (pf == NULL)
+	{
+		return 0;
+	}
+
+	//读文件二进制内容
+	fread(&tmp, sizeof(struct s), 1, pf);
+	printf("%s %d %lf", tmp.name, tmp.age, tmp.score);
+	fclose(pf);
+	pf = NULL;
+	return 0;
+}
